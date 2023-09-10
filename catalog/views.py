@@ -1,9 +1,10 @@
 from django.shortcuts import render
-import json
+from .models import Product
 
 
 def index(request):
-    return render(request, 'catalog/index.html')
+    products = Product.objects.all()  # Получение всех товаров из базы данных
+    return render(request, 'catalog/index.html', {'products': products})
 
 
 def contacts(request):
@@ -14,3 +15,8 @@ def contacts(request):
     print(f"{name} ({phone}): {message}")
 
     return render(request, 'catalog/contacts.html')
+
+
+def product_detail(request, id):
+    product = Product.objects.get(id=id)
+    return render(request, 'catalog/product_detail.html', {'product': product})
