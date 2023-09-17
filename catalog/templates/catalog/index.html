@@ -1,5 +1,6 @@
 {% extends 'catalog/includes/base.html' %}
 {% block title %}Товар - {{ product.title }}{% endblock %}
+{% load mediapath %}
 {% block content %}
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -29,6 +30,7 @@
         {% for product in products %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
+                <img src="{% mediapath product.image %}" / class="card-img-top" alt="{{ product.name }}">
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
                 </div>
