@@ -27,19 +27,19 @@
                 </div>
             </div>
         </div>
-        {% for product in products %}
+        {% for object in object_list %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
-                <img src="{% mediapath product.image %}" / class="card-img-top" alt="{{ product.name }}">
+                <img src="{% mediapath object.image %}" / class="card-img-top" alt="{{ object.name }}">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
+                    <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
                 </div>
                 <div class="card-body">
-                    <h1 class="card-title pricing-card-title">{{ product.price }} руб</h1>
+                    <h1 class="card-title pricing-card-title">{{ object.price }} руб</h1>
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                        <p class="card-text">{{ object.description|truncatechars:100 }}</p>
                     </ul>
-                    <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">Подробнее</a>
+                    <a href="{% url 'catalog:product_detail' pk=object.pk %}" class="btn btn-primary">Подробнее</a>
                 </div>
             </div>
         </div>
