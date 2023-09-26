@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 
 class Category(models.Model):
@@ -46,3 +45,15 @@ class Contacts(models.Model):
         verbose_name_plural = 'контактные лица'
 
 
+class ProductVersion(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='продукт')
+    version_num = models.TextField(verbose_name='номер версии', unique=True, null=True, blank=True)
+    version_name = models.CharField(max_length=150, verbose_name='название версии')
+    active_version = models.BooleanField(verbose_name='активная версия', default=False)
+
+    def __str__(self):
+        return f'{self.version_name} ({self.version_num})'
+
+    class Meta:
+        verbose_name = 'Версия'
+        verbose_name_plural = 'Версии'

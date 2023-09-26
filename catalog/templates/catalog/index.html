@@ -2,6 +2,9 @@
 {% block title %}Товар - {{ product.title }}{% endblock %}
 {% load mediapath %}
 {% block content %}
+    <div>
+        <a class="btn btn-outline-primary" href="{% url 'catalog:create' %}">добавить студента</a>
+    </div>
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h1 class="display-4">Skystore</h1>
@@ -33,13 +36,19 @@
                 <img src="{% mediapath object.image %}" / class="card-img-top" alt="{{ object.name }}">
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
+                    {% if object.active_version %}
+                        <h1 class="my-0 font-weight-normal">{{ object.active_version.version_number }}</h1>
+                    {% endif %}
                 </div>
                 <div class="card-body">
                     <h1 class="card-title pricing-card-title">{{ object.price }} руб</h1>
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         <p class="card-text">{{ object.description|truncatechars:100 }}</p>
                     </ul>
-                    <a href="{% url 'catalog:product_detail' pk=object.pk %}" class="btn btn-primary">Подробнее</a>
+                    <div class="btn-group">
+                        <a href="{% url 'catalog:product_detail' pk=object.pk %}" class="btn btn-primary">Подробнее</a>
+                        <a href="{% url 'catalog:update' pk=object.pk %}" class="btn btn-primary">Изменить</a>
+                    </div>
                 </div>
             </div>
         </div>
