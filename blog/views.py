@@ -17,20 +17,18 @@ class BlogListView(ListView):
 
 class BlogCreateView(CreateView):
     model = Blog
-    fields = ('title', 'body', 'preview', )
-    # success_url = reverse_lazy('blog:list')
+    fields = ('title', 'body', 'preview',)
 
     def form_valid(self, form):
         if form.is_valid():
             new_mat = form.save()
             new_mat.slug = slugify(new_mat.title)
             new_mat.save()
-
+            self.object = new_mat  # Сохраняем объект для последующего использования
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('blog:view', args=[self.kwargs.get('pk')])
-
+        return reverse('blog:view', args=[self.object.pk])
 
 
 class BlogDetailView(DetailView):
@@ -46,18 +44,17 @@ class BlogDetailView(DetailView):
 class BlogUpdateView(UpdateView):
     model = Blog
     fields = ('title', 'body', 'preview',)
-    # success_url = reverse_lazy('blog:list')
 
     def form_valid(self, form):
         if form.is_valid():
             new_mat = form.save()
             new_mat.slug = slugify(new_mat.title)
             new_mat.save()
-
+            self.object = new_mat  # Сохраняем объект для последующего использования
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('blog:view', args=[self.kwargs.get('pk')])
+        return reverse('blog:view', args=[self.object.pk])
 
 
 class BlogDeleteView(DeleteView):

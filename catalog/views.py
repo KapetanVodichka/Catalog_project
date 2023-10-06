@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, ListView, CreateView, UpdateView
@@ -40,14 +41,18 @@ class ProductDetailView(DetailView):
 #     return render(request, 'catalog/product_detail.html', {'product': product})
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:list')
     template_name = 'catalog/includes/product_form.html'
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user  # Привязываем текущего пользователя к продукту
+        return super().form_valid(form)
 
-class ProductUpdateView(UpdateView):
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/includes/product_form.html'
@@ -78,7 +83,7 @@ class ProductUpdateView(UpdateView):
         return response
 
 
-class ProductVersionCreateView(CreateView):
+class ProductVersionCreateView(LoginRequiredMixin, CreateView):
     model = ProductVersion
     form_class = ProductVersionForm
     template_name = 'catalog/includes/version_form.html'
@@ -99,7 +104,7 @@ class ProductVersionCreateView(CreateView):
         return context
 
 
-class ContactsCreateView(CreateView):
+class ContactsCreateView(LoginRequiredMixin, CreateView):
     model = Contacts
     fields = ('name', 'phone', 'message', )
     success_url = reverse_lazy('catalog:contacts')

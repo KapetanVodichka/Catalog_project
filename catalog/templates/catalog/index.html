@@ -3,7 +3,10 @@
 {% load mediapath %}
 {% block content %}
     <div>
-        <a class="btn btn-outline-primary" href="{% url 'catalog:create' %}">добавить студента</a>
+        {% if user.is_authenticated %}
+            <a class="btn btn-outline-primary" href="{% url 'catalog:create' %}">добавить продукт</a>
+            <a class="btn btn-outline-primary" href="{% url 'users:update_pass' %}">Восстановить пароль</a>
+        {% endif %}
     </div>
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -47,7 +50,9 @@
                     </ul>
                     <div class="btn-group">
                         <a href="{% url 'catalog:product_detail' pk=object.pk %}" class="btn btn-primary">Подробнее</a>
-                        <a href="{% url 'catalog:update' pk=object.pk %}" class="btn btn-primary">Изменить</a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'catalog:update' pk=object.pk %}" class="btn btn-primary">Изменить</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
